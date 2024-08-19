@@ -119,7 +119,7 @@
             Controls.Add(Save);
             Controls.Add(OpenGame);
             Name = "Form1";
-            Text = "Form1";
+            Text = "TCOAAL Tools";
             Load += Form1_Load;
             Category.ResumeLayout(false);
             Category.PerformLayout();
