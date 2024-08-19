@@ -158,6 +158,7 @@ namespace TCOAAL_tools
             }
             catch (Exception ex)
             {
+                // error :(
                 ShowError(ex);
             }
         }
