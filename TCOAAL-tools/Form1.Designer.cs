@@ -34,6 +34,8 @@
             AllAchiv = new RadioButton();
             Any = new RadioButton();
             Incest = new RadioButton();
+            GameStatus = new Label();
+            InstallPlugin = new Button();
             Category.SuspendLayout();
             SuspendLayout();
             // 
@@ -43,7 +45,7 @@
             OpenGame.Name = "OpenGame";
             OpenGame.Size = new Size(122, 27);
             OpenGame.TabIndex = 0;
-            OpenGame.Text = "Open Game";
+            OpenGame.Text = "Open Folder";
             OpenGame.UseVisualStyleBackColor = true;
             OpenGame.Click += OpenGame_Click;
             // 
@@ -110,11 +112,33 @@
             Incest.UseVisualStyleBackColor = true;
             Incest.CheckedChanged += Incest_CheckedChanged;
             // 
+            // GameStatus
+            // 
+            GameStatus.AutoSize = true;
+            GameStatus.Location = new Point(12, 119);
+            GameStatus.Name = "GameStatus";
+            GameStatus.Size = new Size(56, 15);
+            GameStatus.TabIndex = 6;
+            GameStatus.Text = "No game";
+            // 
+            // InstallPlugin
+            // 
+            InstallPlugin.Enabled = false;
+            InstallPlugin.Location = new Point(167, 123);
+            InstallPlugin.Name = "InstallPlugin";
+            InstallPlugin.Size = new Size(122, 23);
+            InstallPlugin.TabIndex = 7;
+            InstallPlugin.Text = "Install Plugin";
+            InstallPlugin.UseVisualStyleBackColor = true;
+            InstallPlugin.Click += InstallPlugin_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(304, 131);
+            ClientSize = new Size(328, 158);
+            Controls.Add(InstallPlugin);
+            Controls.Add(GameStatus);
             Controls.Add(Category);
             Controls.Add(Save);
             Controls.Add(OpenGame);
@@ -124,6 +148,7 @@
             Category.ResumeLayout(false);
             Category.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -134,5 +159,7 @@
         private RadioButton AllAchiv;
         private RadioButton Any;
         private RadioButton Incest;
+        private Label GameStatus;
+        private Button InstallPlugin;
     }
 }
