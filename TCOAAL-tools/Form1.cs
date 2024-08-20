@@ -276,6 +276,7 @@ namespace TCOAAL_tools
         {
             if (!loadingStatus)
             {
+                MessageBox.Show("Wait a few seconds... Connecting to github server");
                 return;
             }
             File.WriteAllBytes(livesplitPath, pluginFile);

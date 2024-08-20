@@ -45,7 +45,7 @@
             OpenGame.Name = "OpenGame";
             OpenGame.Size = new Size(122, 27);
             OpenGame.TabIndex = 0;
-            OpenGame.Text = "Open Folder";
+            OpenGame.Text = "Open Folder...";
             OpenGame.UseVisualStyleBackColor = true;
             OpenGame.Click += OpenGame_Click;
             // 
@@ -115,9 +115,10 @@
             // GameStatus
             // 
             GameStatus.AutoSize = true;
-            GameStatus.Location = new Point(12, 119);
+            GameStatus.Font = new Font("Segoe UI", 15F);
+            GameStatus.Location = new Point(36, 118);
             GameStatus.Name = "GameStatus";
-            GameStatus.Size = new Size(56, 15);
+            GameStatus.Size = new Size(93, 28);
             GameStatus.TabIndex = 6;
             GameStatus.Text = "No game";
             // 
@@ -136,7 +137,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(328, 158);
+            ClientSize = new Size(299, 158);
             Controls.Add(InstallPlugin);
             Controls.Add(GameStatus);
             Controls.Add(Category);
