@@ -114,13 +114,15 @@
             // 
             // GameStatus
             // 
-            GameStatus.AutoSize = true;
-            GameStatus.Font = new Font("Segoe UI", 15F);
-            GameStatus.Location = new Point(36, 118);
+            GameStatus.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            GameStatus.AutoEllipsis = true;
+            GameStatus.Font = new Font("Segoe UI", 11F);
+            GameStatus.Location = new Point(12, 118);
             GameStatus.Name = "GameStatus";
-            GameStatus.Size = new Size(93, 28);
+            GameStatus.Size = new Size(143, 28);
             GameStatus.TabIndex = 6;
             GameStatus.Text = "No game";
+            GameStatus.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // InstallPlugin
             // 
@@ -149,7 +151,6 @@
             Category.ResumeLayout(false);
             Category.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion

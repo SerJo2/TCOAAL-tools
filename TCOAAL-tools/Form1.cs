@@ -132,12 +132,12 @@ namespace TCOAAL_tools
 
                     if (hash_match)
                     {
-                        GameStatus.Text = "Plugin is installed";
+                        GameStatus.Text = "Plugin installed";
                         GameStatus.ForeColor = Color.Green;
                     }
                     else
                     {
-                        GameStatus.Text = "Plugin is not installed";
+                        GameStatus.Text = "Plugin not installed";
                         GameStatus.ForeColor = Color.Red;
                     }
 
@@ -300,12 +300,12 @@ namespace TCOAAL_tools
 
             if (hash_match)
             {
-                GameStatus.Text = "Plugin is installed";
+                GameStatus.Text = "Plugin installed";
                 GameStatus.ForeColor = Color.Green;
             }
             else
             {
-                GameStatus.Text = "Plugin is not installed";
+                GameStatus.Text = "Plugin not installed";
                 GameStatus.ForeColor = Color.Red;
             }
 
