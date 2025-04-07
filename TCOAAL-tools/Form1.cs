@@ -41,7 +41,6 @@ namespace TCOAAL_tools
         private const string PREFS_URL = "https://raw.githubusercontent.com/SerJo2/TCoAaL-Autosplitter/refs/heads/main/AutosplitterSettings.json";
         private const string AUTOSPLITTER_URL = "https://raw.githubusercontent.com/SerJo2/TCoAaL-Autosplitter/refs/heads/main/Autosplitter.json";
 
-
         private Dictionary<string, bool> splitPrefs;
         private Autosplitter autosplitter;
 
