@@ -18,10 +18,10 @@ namespace TCOAAL_tools
         private bool hash_match = false;
 
         static readonly HttpClient httpClient = new HttpClient();
-        private const string AUTOSPLITTER_SHA256 = "c5eeb900366e502ff6b00d8a5537e01071507da0b0e0d9030e546216ce48809c";
+        private const string AUTOSPLITTER_SHA256 = "3eeeac0123b15c1d98b2f73db168d0468f7eeebb64b6d8b84ae6e84ad433c7a0";
         private const string LIVESPLIT_SHA256 = "ae26a9faedfdb5f1c33a5d92220d6b491506b0974e9a943e5f83f79fe3841e9c";
-        private const string PLUGINS_SHA256 = "626ccd33fb3f8d42646e2279c7e5770383fe2b7b4fb74e628701c27bafae071c";
-        private string[] AUTOSPLITTERSETTINGS_SHA256 = ["b89d11003e833fc0a22ec4a12257994326f60345f8a86d479b2cd3272f1a20b8", "736bf7209ecbd03ad98623d9fef629258823fc36ae0c0fbf8bcf8751625b559f", "2011681dbc88d26f65a0882e4a10a52a68a036f52353c2032e8f4be5df3c927c"];
+        private const string PLUGINS_SHA256 = "8ee19b7dd412c3d0b39e2c60de043f13ec79a0468e22b3af193dd87f47f7be7a";
+        private string[] AUTOSPLITTERSETTINGS_SHA256 = ["105d52365ea927fb6e5ef3420f67a73078b2ce588fbab1a93969803d66873646", "736bf7209ecbd03ad98623d9fef629258823fc36ae0c0fbf8bcf8751625b559f", "2011681dbc88d26f65a0882e4a10a52a68a036f52353c2032e8f4be5df3c927c"];
 
         private byte[] pluginFile = null;
         private byte[] pluginsListFile = null;
@@ -36,10 +36,10 @@ namespace TCOAAL_tools
         string autosplitterPath;
         string pluginsDirPath;
 
-        private const string PLUGIN_URL = "https://raw.githubusercontent.com/SerJo2/TCoAaL-Autosplitter/main/www/js/plugins/LiveSplit.js";
-        private const string PLUGIN_LIST_URL = "https://raw.githubusercontent.com/SerJo2/TCoAaL-Autosplitter/main/www/js/plugins.js";
-        private const string PREFS_URL = "https://raw.githubusercontent.com/SerJo2/TCoAaL-Autosplitter/main/AutosplitterSettings.json";
-        private const string AUTOSPLITTER_URL = "https://raw.githubusercontent.com/SerJo2/TCoAaL-Autosplitter/main/Autosplitter.json";
+        private const string PLUGIN_URL = "https://raw.githubusercontent.com/SerJo2/TCoAaL-Autosplitter/refs/heads/main/www/js/plugins/LiveSplit.js";
+        private const string PLUGIN_LIST_URL = "https://raw.githubusercontent.com/SerJo2/TCoAaL-Autosplitter/refs/heads/main/www/js/plugins.js";
+        private const string PREFS_URL = "https://raw.githubusercontent.com/SerJo2/TCoAaL-Autosplitter/refs/heads/main/AutosplitterSettings.json";
+        private const string AUTOSPLITTER_URL = "https://raw.githubusercontent.com/SerJo2/TCoAaL-Autosplitter/refs/heads/main/Autosplitter.json";
 
 
         private Dictionary<string, bool> splitPrefs;
@@ -83,16 +83,6 @@ namespace TCOAAL_tools
             category = "Any%";
         }
 
-        private void Incest_CheckedChanged(object sender, EventArgs e)
-        {
-            category = "Incest%";
-        }
-
-        private void AllAchiv_CheckedChanged(object sender, EventArgs e)
-        {
-            category = "All Achivements";
-        }
-
         private void OpenGame_Click(object sender, EventArgs e)
         {
             DialogResult dialog = folderBrowser.ShowDialog();
@@ -115,8 +105,8 @@ namespace TCOAAL_tools
                     selectedPath = folderBrowser.SelectedPath;
                     open = true;
 
-                    // #TODO поместить все в одно if
-                    if (CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[0] || CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[1] || CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[2])
+                    // #TODO поместить все в одно if и убрать первый if нахуй проверять конфиг, прросто проверь есть ли он или нет хз, перезапиши его рил хз
+                    if (CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[0])
                     {
                         if (CalculateSHA256(listPath) == PLUGINS_SHA256)
                         {
@@ -146,8 +136,6 @@ namespace TCOAAL_tools
                         LoadAutosplitter(prefsPath);
                         Save.Enabled = true;
                         Any.Enabled = true;
-                        Incest.Enabled = true;
-                        AllAchiv.Enabled = true;
                     }
                     else
                     {
@@ -217,12 +205,6 @@ namespace TCOAAL_tools
                         case "Any%":
                             Any.Checked = true;
                             break;
-                        case "Incest%":
-                            Incest.Checked = true;
-                            break;
-                        case "All achivements":
-                            AllAchiv.Checked = true;
-                            break;
                     }
                 }
 
@@ -243,19 +225,8 @@ namespace TCOAAL_tools
             {
                 case "Any%":
                     splitPrefs["Any%"] = true;
-                    splitPrefs["Incest%"] = false;
-                    splitPrefs["All achivements"] = false;
                     break;
-                case "Incest%":
-                    splitPrefs["Any%"] = false;
-                    splitPrefs["Incest%"] = true;
-                    splitPrefs["All achivements"] = false;
-                    break;
-                case "All Achivements":
-                    splitPrefs["Any%"] = false;
-                    splitPrefs["Incest%"] = false;
-                    splitPrefs["All achivements"] = true;
-                    break;
+                
 
 
             }
@@ -314,8 +285,6 @@ namespace TCOAAL_tools
                 LoadAutosplitter(prefsPath);
                 Save.Enabled = true;
                 Any.Enabled = true;
-                Incest.Enabled = true;
-                AllAchiv.Enabled = true;
                 InstallPlugin.Enabled = false;
             }
             else

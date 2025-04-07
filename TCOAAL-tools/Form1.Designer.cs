@@ -31,9 +31,7 @@
             OpenGame = new Button();
             Save = new Button();
             Category = new GroupBox();
-            AllAchiv = new RadioButton();
             Any = new RadioButton();
-            Incest = new RadioButton();
             GameStatus = new Label();
             InstallPlugin = new Button();
             Category.SuspendLayout();
@@ -62,9 +60,7 @@
             // 
             // Category
             // 
-            Category.Controls.Add(AllAchiv);
             Category.Controls.Add(Any);
-            Category.Controls.Add(Incest);
             Category.Location = new Point(12, 12);
             Category.Name = "Category";
             Category.Size = new Size(149, 104);
@@ -72,19 +68,6 @@
             Category.TabStop = false;
             Category.Text = "Category";
             Category.Enter += groupBox1_Enter;
-            // 
-            // AllAchiv
-            // 
-            AllAchiv.AutoSize = true;
-            AllAchiv.Enabled = false;
-            AllAchiv.Location = new Point(6, 72);
-            AllAchiv.Name = "AllAchiv";
-            AllAchiv.Size = new Size(111, 19);
-            AllAchiv.TabIndex = 8;
-            AllAchiv.TabStop = true;
-            AllAchiv.Text = "All Achivements";
-            AllAchiv.UseVisualStyleBackColor = true;
-            AllAchiv.CheckedChanged += AllAchiv_CheckedChanged;
             // 
             // Any
             // 
@@ -98,19 +81,6 @@
             Any.Text = "Any%";
             Any.UseVisualStyleBackColor = true;
             Any.CheckedChanged += Any_CheckedChanged;
-            // 
-            // Incest
-            // 
-            Incest.AutoSize = true;
-            Incest.Enabled = false;
-            Incest.Location = new Point(6, 47);
-            Incest.Name = "Incest";
-            Incest.Size = new Size(56, 19);
-            Incest.TabIndex = 7;
-            Incest.TabStop = true;
-            Incest.Text = "Incest";
-            Incest.UseVisualStyleBackColor = true;
-            Incest.CheckedChanged += Incest_CheckedChanged;
             // 
             // GameStatus
             // 
@@ -158,9 +128,7 @@
         private Button OpenGame;
         private Button Save;
         private GroupBox Category;
-        private RadioButton AllAchiv;
         private RadioButton Any;
-        private RadioButton Incest;
         private Label GameStatus;
         private Button InstallPlugin;
     }
