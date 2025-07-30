@@ -18,8 +18,8 @@ namespace TCOAAL_tools
         private bool hash_match = false;
         // TODO: Проверять не хешем, а дсон сериалайзером
         static readonly HttpClient httpClient = new HttpClient();
-        private const string AUTOSPLITTER_SHA256 = "f8132fdfd5a372ebbad05427d8aab8faf2966c52c84604108fb8bfafe0e8fead";
-        private const string LIVESPLIT_SHA256 = "ae26a9faedfdb5f1c33a5d92220d6b491506b0974e9a943e5f83f79fe3841e9c";
+        private const string AUTOSPLITTER_SHA256 = "bcd1cbe80cffdb80b1d38de4a886dea9ef20a76ab5f3e95044781ee587384974";
+        private const string LIVESPLIT_SHA256 = "a053284d552c2a31a883155d474b508041e1b3217f027f6938856cf337a10e1c";
         private const string PLUGINS_SHA256 = "8c030a8f8e010b330f98be1fe783cbf5fc83dacc06016ef18a9476d0eaf52b9c";
         private string[] AUTOSPLITTERSETTINGS_SHA256 = ["105d52365ea927fb6e5ef3420f67a73078b2ce588fbab1a93969803d66873646", "736bf7209ecbd03ad98623d9fef629258823fc36ae0c0fbf8bcf8751625b559f", "2011681dbc88d26f65a0882e4a10a52a68a036f52353c2032e8f4be5df3c927c"];
 
