@@ -18,10 +18,10 @@ namespace TCOAAL_tools
         private bool hash_match = false;
         // TODO: Проверять не хешем, а дсон сериалайзером
         static readonly HttpClient httpClient = new HttpClient();
-        private const string AUTOSPLITTER_SHA256 = "bcd1cbe80cffdb80b1d38de4a886dea9ef20a76ab5f3e95044781ee587384974";
+        private const string AUTOSPLITTER_SHA256 = "c79d0d13815a2ac3afecdfdb266267c3f08012831c246c3ed52a4de65210e609";
         private const string LIVESPLIT_SHA256 = "a053284d552c2a31a883155d474b508041e1b3217f027f6938856cf337a10e1c";
         private const string PLUGINS_SHA256 = "8c030a8f8e010b330f98be1fe783cbf5fc83dacc06016ef18a9476d0eaf52b9c";
-        private string[] AUTOSPLITTERSETTINGS_SHA256 = ["105d52365ea927fb6e5ef3420f67a73078b2ce588fbab1a93969803d66873646", "736bf7209ecbd03ad98623d9fef629258823fc36ae0c0fbf8bcf8751625b559f", "2011681dbc88d26f65a0882e4a10a52a68a036f52353c2032e8f4be5df3c927c"];
+        private string[] AUTOSPLITTERSETTINGS_SHA256 = ["bf05aa98bdfc7fa804fd7c6f73ee519a854b835111528fd9e2f2866b0121bb1a", "6831195d51feca0ee8523a09a7abc2c96cc109be163f6a90f51c91e4a3118cbd", "caa912ddf1179eb5cbd3aa10a574b962e929a3a94838f476fdfd7bf2859a0ff8", "78dd3955478cc4c93addfed766a3570476089ad0460f97158d943098463c1d90"];
 
         private byte[] pluginFile = null;
         private byte[] pluginsListFile = null;
@@ -132,7 +132,7 @@ namespace TCOAAL_tools
                         }
                     }
 
-                    if (hash_match || true)
+                    if (hash_match)
                     {
                         GameStatus.Text = "Plugin installed";
                         GameStatus.ForeColor = Color.Green;
@@ -143,7 +143,7 @@ namespace TCOAAL_tools
                         GameStatus.ForeColor = Color.Red;
                     }
 
-                    if (hash_match || true)
+                    if (hash_match)
                     {
                         LoadAutosplitter(prefsPath);
                         Save.Enabled = true;
