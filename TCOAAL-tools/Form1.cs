@@ -81,6 +81,20 @@ namespace TCOAAL_tools
         {
             category = "Any%";
         }
+        private void Burial_CheckedChanged(object sender, EventArgs e)
+        {
+            category = "Burial";
+        }
+
+        private void Incest_CheckedChanged(object sender, EventArgs e)
+        {
+            category = "Incest";
+        }
+
+        private void Andy_CheckedChanged(object sender, EventArgs e)
+        {
+            category = "Andy";
+        }
 
         private void OpenGame_Click(object sender, EventArgs e)
         {
@@ -134,6 +148,9 @@ namespace TCOAAL_tools
                         LoadAutosplitter(prefsPath);
                         Save.Enabled = true;
                         Any.Enabled = true;
+                        Burial.Enabled = true;
+                        Incest.Enabled = true;
+                        Andy.Enabled = true;
                     }
                     else
                     {
@@ -224,7 +241,7 @@ namespace TCOAAL_tools
                 case "Any%":
                     splitPrefs["Any%"] = true;
                     break;
-                
+
 
 
             }
@@ -239,7 +256,7 @@ namespace TCOAAL_tools
             }
         }
 
-        
+
 
         private void InstallPlugin_Click(object sender, EventArgs e)
         {

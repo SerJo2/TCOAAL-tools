@@ -34,6 +34,9 @@
             Any = new RadioButton();
             GameStatus = new Label();
             InstallPlugin = new Button();
+            Burial = new RadioButton();
+            Incest = new RadioButton();
+            Andy = new RadioButton();
             Category.SuspendLayout();
             SuspendLayout();
             // 
@@ -50,7 +53,7 @@
             // Save
             // 
             Save.Enabled = false;
-            Save.Location = new Point(167, 45);
+            Save.Location = new Point(167, 147);
             Save.Name = "Save";
             Save.Size = new Size(122, 71);
             Save.TabIndex = 1;
@@ -60,10 +63,13 @@
             // 
             // Category
             // 
+            Category.Controls.Add(Andy);
+            Category.Controls.Add(Incest);
+            Category.Controls.Add(Burial);
             Category.Controls.Add(Any);
             Category.Location = new Point(12, 12);
             Category.Name = "Category";
-            Category.Size = new Size(149, 104);
+            Category.Size = new Size(149, 151);
             Category.TabIndex = 5;
             Category.TabStop = false;
             Category.Text = "Category";
@@ -87,9 +93,9 @@
             GameStatus.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             GameStatus.AutoEllipsis = true;
             GameStatus.Font = new Font("Segoe UI", 11F);
-            GameStatus.Location = new Point(12, 118);
+            GameStatus.Location = new Point(12, 166);
             GameStatus.Name = "GameStatus";
-            GameStatus.Size = new Size(143, 28);
+            GameStatus.Size = new Size(142, 52);
             GameStatus.TabIndex = 6;
             GameStatus.Text = "No game";
             GameStatus.TextAlign = ContentAlignment.MiddleCenter;
@@ -97,7 +103,7 @@
             // InstallPlugin
             // 
             InstallPlugin.Enabled = false;
-            InstallPlugin.Location = new Point(167, 123);
+            InstallPlugin.Location = new Point(167, 45);
             InstallPlugin.Name = "InstallPlugin";
             InstallPlugin.Size = new Size(122, 23);
             InstallPlugin.TabIndex = 7;
@@ -105,11 +111,50 @@
             InstallPlugin.UseVisualStyleBackColor = true;
             InstallPlugin.Click += InstallPlugin_Click;
             // 
+            // Burial
+            // 
+            Burial.AutoSize = true;
+            Burial.Enabled = false;
+            Burial.Location = new Point(6, 47);
+            Burial.Name = "Burial";
+            Burial.Size = new Size(55, 19);
+            Burial.TabIndex = 7;
+            Burial.TabStop = true;
+            Burial.Text = "Burial";
+            Burial.UseVisualStyleBackColor = true;
+            Burial.CheckedChanged += Burial_CheckedChanged;
+            // 
+            // Incest
+            // 
+            Incest.AutoSize = true;
+            Incest.Enabled = false;
+            Incest.Location = new Point(6, 72);
+            Incest.Name = "Incest";
+            Incest.Size = new Size(66, 19);
+            Incest.TabIndex = 8;
+            Incest.TabStop = true;
+            Incest.Text = "Incest%";
+            Incest.UseVisualStyleBackColor = true;
+            Incest.CheckedChanged += Incest_CheckedChanged;
+            // 
+            // Andy
+            // 
+            Andy.AutoSize = true;
+            Andy.Enabled = false;
+            Andy.Location = new Point(6, 97);
+            Andy.Name = "Andy";
+            Andy.Size = new Size(53, 19);
+            Andy.TabIndex = 9;
+            Andy.TabStop = true;
+            Andy.Text = "Andy";
+            Andy.UseVisualStyleBackColor = true;
+            Andy.CheckedChanged += Andy_CheckedChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(299, 158);
+            ClientSize = new Size(298, 227);
             Controls.Add(InstallPlugin);
             Controls.Add(GameStatus);
             Controls.Add(Category);
@@ -131,5 +176,8 @@
         private RadioButton Any;
         private Label GameStatus;
         private Button InstallPlugin;
+        private RadioButton Andy;
+        private RadioButton Incest;
+        private RadioButton Burial;
     }
 }
