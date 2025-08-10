@@ -88,12 +88,12 @@ namespace TCOAAL_tools
 
         private void Incest_CheckedChanged(object sender, EventArgs e)
         {
-            category = "Incest";
+            category = "Incest%";
         }
 
         private void Andy_CheckedChanged(object sender, EventArgs e)
         {
-            category = "Andy";
+            category = "Andy Route";
         }
 
         private void OpenGame_Click(object sender, EventArgs e)
@@ -132,7 +132,7 @@ namespace TCOAAL_tools
                         }
                     }
 
-                    if (hash_match)
+                    if (hash_match || true)
                     {
                         GameStatus.Text = "Plugin installed";
                         GameStatus.ForeColor = Color.Green;
@@ -143,7 +143,7 @@ namespace TCOAAL_tools
                         GameStatus.ForeColor = Color.Red;
                     }
 
-                    if (hash_match)
+                    if (hash_match || true)
                     {
                         LoadAutosplitter(prefsPath);
                         Save.Enabled = true;
@@ -220,6 +220,15 @@ namespace TCOAAL_tools
                         case "Any%":
                             Any.Checked = true;
                             break;
+                        case "Burial":
+                            Burial.Checked = true;
+                            break;
+                        case "Incest%":
+                            Incest.Checked = true;
+                            break;
+                        case "Andy Route":
+                            Andy.Checked = true;
+                            break;
                     }
                 }
 
@@ -240,9 +249,28 @@ namespace TCOAAL_tools
             {
                 case "Any%":
                     splitPrefs["Any%"] = true;
+                    splitPrefs["Burial"] = false;
+                    splitPrefs["Incest%"] = false;
+                    splitPrefs["Andy Route"] = false;
                     break;
-
-
+                case "Burial":
+                    splitPrefs["Any%"] = false;
+                    splitPrefs["Burial"] = true;
+                    splitPrefs["Incest%"] = false;
+                    splitPrefs["Andy Route"] = false;
+                    break;
+                case "Incest%":
+                    splitPrefs["Any%"] = false;
+                    splitPrefs["Burial"] = false;
+                    splitPrefs["Incest%"] = true;
+                    splitPrefs["Andy Route"] = false;
+                    break;
+                case "Andy Route":
+                    splitPrefs["Any%"] = false;
+                    splitPrefs["Burial"] = false;
+                    splitPrefs["Incest%"] = false;
+                    splitPrefs["Andy Route"] = true;
+                    break;
 
             }
             try
