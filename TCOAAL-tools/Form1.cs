@@ -143,7 +143,7 @@ namespace TCOAAL_tools
                         GameStatus.ForeColor = Color.Red;
                     }
 
-                    if (hash_match)
+                    if (hash_match || true)
                     {
                         LoadAutosplitter(prefsPath);
                         Save.Enabled = true;
@@ -328,6 +328,9 @@ namespace TCOAAL_tools
                 LoadAutosplitter(prefsPath);
                 Save.Enabled = true;
                 Any.Enabled = true;
+                Burial.Enabled = true;
+                Incest.Enabled = true;
+                Andy.Enabled = true;
                 InstallPlugin.Enabled = false;
             }
             else
