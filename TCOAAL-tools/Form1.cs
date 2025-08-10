@@ -118,7 +118,7 @@ namespace TCOAAL_tools
                     open = true;
 
                     // #TODO поместить все в одно if и убрать первый if нахуй проверять конфиг, прросто проверь есть ли он или нет хз, перезапиши его рил хз
-                    if (CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[0])
+                    if (CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[0] || CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[1] || CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[2] || CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[3])
                     {
                         if (CalculateSHA256(listPath) == PLUGINS_SHA256)
                         {
@@ -143,7 +143,7 @@ namespace TCOAAL_tools
                         GameStatus.ForeColor = Color.Red;
                     }
 
-                    if (hash_match || true)
+                    if (hash_match)
                     {
                         LoadAutosplitter(prefsPath);
                         Save.Enabled = true;
