@@ -17,12 +17,12 @@ namespace TCOAAL_tools
         private string selectedPath;
         private string prefsPath;
 
-        public string VERSION = "v1.3.0";
+        public string VERSION = "v1.3.4";
 
         private bool hash_match = false;
         // TODO: Проверять не хешем, а дсон сериалайзером 
         static readonly HttpClient httpClient = new HttpClient();
-        private const string AUTOSPLITTER_SHA256 = "a0d4db6f6f3f591ccbe0dd027910590e603ea1f33be22b8b07904384f1ccedd9";
+        private const string AUTOSPLITTER_SHA256 = "a884e2c119fc523a327f3aa9ee6b65cabbf442dd7c7e7483ea978a9dc9a94ce2";
         private const string LIVESPLIT_SHA256 = "a053284d552c2a31a883155d474b508041e1b3217f027f6938856cf337a10e1c";
         private const string PLUGINS_SHA256 = "8c030a8f8e010b330f98be1fe783cbf5fc83dacc06016ef18a9476d0eaf52b9c";
         private string[] AUTOSPLITTERSETTINGS_SHA256 = ["bf05aa98bdfc7fa804fd7c6f73ee519a854b835111528fd9e2f2866b0121bb1a", "6831195d51feca0ee8523a09a7abc2c96cc109be163f6a90f51c91e4a3118cbd", "caa912ddf1179eb5cbd3aa10a574b962e929a3a94838f476fdfd7bf2859a0ff8", "78dd3955478cc4c93addfed766a3570476089ad0460f97158d943098463c1d90"];
