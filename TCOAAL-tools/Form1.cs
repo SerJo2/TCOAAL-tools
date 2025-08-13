@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Security.Cryptography;
@@ -15,10 +17,12 @@ namespace TCOAAL_tools
         private string selectedPath;
         private string prefsPath;
 
+        public string VERSION = "v1.3.4";
+
         private bool hash_match = false;
         // TODO: Проверять не хешем, а дсон сериалайзером 
-        static readonly HttpClient httpClient = new HttpClient(); 
-        private const string AUTOSPLITTER_SHA256 = "a0d4db6f6f3f591ccbe0dd027910590e603ea1f33be22b8b07904384f1ccedd9";
+        static readonly HttpClient httpClient = new HttpClient();
+        private const string AUTOSPLITTER_SHA256 = "a884e2c119fc523a327f3aa9ee6b65cabbf442dd7c7e7483ea978a9dc9a94ce2";
         private const string LIVESPLIT_SHA256 = "a053284d552c2a31a883155d474b508041e1b3217f027f6938856cf337a10e1c";
         private const string PLUGINS_SHA256 = "8c030a8f8e010b330f98be1fe783cbf5fc83dacc06016ef18a9476d0eaf52b9c";
         private string[] AUTOSPLITTERSETTINGS_SHA256 = ["bf05aa98bdfc7fa804fd7c6f73ee519a854b835111528fd9e2f2866b0121bb1a", "6831195d51feca0ee8523a09a7abc2c96cc109be163f6a90f51c91e4a3118cbd", "caa912ddf1179eb5cbd3aa10a574b962e929a3a94838f476fdfd7bf2859a0ff8", "78dd3955478cc4c93addfed766a3570476089ad0460f97158d943098463c1d90"];
@@ -27,6 +31,7 @@ namespace TCOAAL_tools
         private byte[] pluginsListFile = null;
         private byte[] prefsFile = null;
         private byte[] autosplitterFile = null;
+        private string versionString = null;
 
         private bool open = false;
         private bool loadingStatus = false;
@@ -40,6 +45,7 @@ namespace TCOAAL_tools
         private const string PLUGIN_LIST_URL = "https://raw.githubusercontent.com/SerJo2/TCoAaL-Autosplitter/refs/heads/main/www/js/plugins.js";
         private const string PREFS_URL = "https://raw.githubusercontent.com/SerJo2/TCoAaL-Autosplitter/refs/heads/main/AutosplitterSettings.json";
         private const string AUTOSPLITTER_URL = "https://raw.githubusercontent.com/SerJo2/TCoAaL-Autosplitter/refs/heads/main/Autosplitter.json";
+        private const string VERSION_URL = "https://raw.githubusercontent.com/SerJo2/TCOAAL-tools/refs/heads/master/TCOAAL-tools/Utils/version.txt";
 
         private Dictionary<string, bool> splitPrefs;
         private Autosplitter autosplitter;
@@ -48,6 +54,8 @@ namespace TCOAAL_tools
         {
             InitializeComponent();
             RetrievePlugin();
+            VersionLabel.Text = VERSION;
+            CheckVersion();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -101,11 +109,11 @@ namespace TCOAAL_tools
             DialogResult dialog = folderBrowser.ShowDialog();
             if (dialog == DialogResult.OK)
             {
-                listPath = folderBrowser.SelectedPath + @"\www\js\plugins.js";
-                pluginsDirPath = folderBrowser.SelectedPath + @"\www\js\plugins";
-                livesplitPath = folderBrowser.SelectedPath + @"\www\js\plugins\LiveSplit.js";
-                autosplitterPath = folderBrowser.SelectedPath + @"\Autosplitter.json";
-                prefsPath = folderBrowser.SelectedPath + @"\AutosplitterSettings.json";
+                listPath = Path.Combine(folderBrowser.SelectedPath, @"www\js\plugins.js");
+                pluginsDirPath = Path.Combine(folderBrowser.SelectedPath, @"www\js\plugins");
+                livesplitPath = Path.Combine(folderBrowser.SelectedPath, @"www\js\plugins\LiveSplit.js");
+                autosplitterPath = Path.Combine(folderBrowser.SelectedPath, @"Autosplitter.json");
+                prefsPath = Path.Combine(folderBrowser.SelectedPath, @"AutosplitterSettings.json");
 
                 if (!Directory.Exists(pluginsDirPath) || !File.Exists(listPath))
                 {
@@ -162,10 +170,57 @@ namespace TCOAAL_tools
                 }
 
             }
+            else
+            {
+                ShowError(new Exception("Something wen't wrong :\\"));
+            }
         }
         private void LoadAllPlugins(string prefsPath)
         {
 
+        }
+
+        private async void CheckVersion()
+        {
+            try
+            {
+                versionString = await httpClient.GetStringAsync(VERSION_URL);
+
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return;
+            }
+
+            string vComp = VERSION.Trim().TrimStart('v', 'V');
+            string vServer = versionString.Trim().TrimStart('v', 'V');
+            int versionResult = 0;
+
+            string[] parts1 = vComp.Split('.');
+            string[] parts2 = vServer.Split('.');
+
+            int maxLength = Math.Max(parts1.Length, parts2.Length);
+
+            for (int i = 0; i < maxLength; i++)
+            {
+
+                int num1 = (i < parts1.Length) ? int.Parse(parts1[i]) : 0;
+                int num2 = (i < parts2.Length) ? int.Parse(parts2[i]) : 0;
+
+                if (num1 != num2)
+                    versionResult = num1.CompareTo(num2);
+            }
+
+            if (versionResult != 0)
+            {
+                VersionLabel.ForeColor = Color.Red; // Версия На компе otdated
+                VersionLabel.Text = "Version Outdated";
+                UpdateButton.Enabled = true;
+                UpdateButton.Visible = true;
+            }
+            else
+                VersionLabel.ForeColor = Color.Green; // Версия Совпадает
         }
         private async void RetrievePlugin()
         {
@@ -338,6 +393,32 @@ namespace TCOAAL_tools
                 InstallPlugin.Enabled = true;
             }
 
+        }
+
+        private void VersionLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void UpdateButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(new ProcessStartInfo
+                {
+                    FileName = "https://github.com/SerJo2/TCOAAL-tools/releases",
+                    UseShellExecute = true
+                });
+            }
+            catch (System.ComponentModel.Win32Exception noBrowser)
+            {
+                if (noBrowser.ErrorCode == -2147467259)
+                    MessageBox.Show(noBrowser.Message);
+            }
+            catch (System.Exception other)
+            {
+                MessageBox.Show(other.Message);
+            }
         }
     }
 }
