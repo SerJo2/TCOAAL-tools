@@ -31,12 +31,14 @@
             OpenGame = new Button();
             Save = new Button();
             Category = new GroupBox();
+            Andy = new RadioButton();
+            Incest = new RadioButton();
+            Burial = new RadioButton();
             Any = new RadioButton();
             GameStatus = new Label();
             InstallPlugin = new Button();
-            Burial = new RadioButton();
-            Incest = new RadioButton();
-            Andy = new RadioButton();
+            VersionLabel = new Label();
+            UpdateButton = new Button();
             Category.SuspendLayout();
             SuspendLayout();
             // 
@@ -75,6 +77,45 @@
             Category.Text = "Category";
             Category.Enter += groupBox1_Enter;
             // 
+            // Andy
+            // 
+            Andy.AutoSize = true;
+            Andy.Enabled = false;
+            Andy.Location = new Point(6, 97);
+            Andy.Name = "Andy";
+            Andy.Size = new Size(53, 19);
+            Andy.TabIndex = 9;
+            Andy.TabStop = true;
+            Andy.Text = "Andy";
+            Andy.UseVisualStyleBackColor = true;
+            Andy.CheckedChanged += Andy_CheckedChanged;
+            // 
+            // Incest
+            // 
+            Incest.AutoSize = true;
+            Incest.Enabled = false;
+            Incest.Location = new Point(6, 72);
+            Incest.Name = "Incest";
+            Incest.Size = new Size(66, 19);
+            Incest.TabIndex = 8;
+            Incest.TabStop = true;
+            Incest.Text = "Incest%";
+            Incest.UseVisualStyleBackColor = true;
+            Incest.CheckedChanged += Incest_CheckedChanged;
+            // 
+            // Burial
+            // 
+            Burial.AutoSize = true;
+            Burial.Enabled = false;
+            Burial.Location = new Point(6, 47);
+            Burial.Name = "Burial";
+            Burial.Size = new Size(55, 19);
+            Burial.TabIndex = 7;
+            Burial.TabStop = true;
+            Burial.Text = "Burial";
+            Burial.UseVisualStyleBackColor = true;
+            Burial.CheckedChanged += Burial_CheckedChanged;
+            // 
             // Any
             // 
             Any.AutoSize = true;
@@ -111,50 +152,36 @@
             InstallPlugin.UseVisualStyleBackColor = true;
             InstallPlugin.Click += InstallPlugin_Click;
             // 
-            // Burial
+            // VersionLabel
             // 
-            Burial.AutoSize = true;
-            Burial.Enabled = false;
-            Burial.Location = new Point(6, 47);
-            Burial.Name = "Burial";
-            Burial.Size = new Size(55, 19);
-            Burial.TabIndex = 7;
-            Burial.TabStop = true;
-            Burial.Text = "Burial";
-            Burial.UseVisualStyleBackColor = true;
-            Burial.CheckedChanged += Burial_CheckedChanged;
+            VersionLabel.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            VersionLabel.Location = new Point(163, 71);
+            VersionLabel.Name = "VersionLabel";
+            VersionLabel.Size = new Size(131, 21);
+            VersionLabel.TabIndex = 8;
+            VersionLabel.Text = "v";
+            VersionLabel.TextAlign = ContentAlignment.MiddleCenter;
+            VersionLabel.Click += VersionLabel_Click;
             // 
-            // Incest
+            // UpdateButton
             // 
-            Incest.AutoSize = true;
-            Incest.Enabled = false;
-            Incest.Location = new Point(6, 72);
-            Incest.Name = "Incest";
-            Incest.Size = new Size(66, 19);
-            Incest.TabIndex = 8;
-            Incest.TabStop = true;
-            Incest.Text = "Incest%";
-            Incest.UseVisualStyleBackColor = true;
-            Incest.CheckedChanged += Incest_CheckedChanged;
-            // 
-            // Andy
-            // 
-            Andy.AutoSize = true;
-            Andy.Enabled = false;
-            Andy.Location = new Point(6, 97);
-            Andy.Name = "Andy";
-            Andy.Size = new Size(53, 19);
-            Andy.TabIndex = 9;
-            Andy.TabStop = true;
-            Andy.Text = "Andy";
-            Andy.UseVisualStyleBackColor = true;
-            Andy.CheckedChanged += Andy_CheckedChanged;
+            UpdateButton.Enabled = false;
+            UpdateButton.Location = new Point(167, 118);
+            UpdateButton.Name = "UpdateButton";
+            UpdateButton.Size = new Size(122, 23);
+            UpdateButton.TabIndex = 9;
+            UpdateButton.Text = "Update";
+            UpdateButton.UseVisualStyleBackColor = true;
+            UpdateButton.Visible = false;
+            UpdateButton.Click += UpdateButton_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(298, 227);
+            Controls.Add(UpdateButton);
+            Controls.Add(VersionLabel);
             Controls.Add(InstallPlugin);
             Controls.Add(GameStatus);
             Controls.Add(Category);
@@ -179,5 +206,7 @@
         private RadioButton Andy;
         private RadioButton Incest;
         private RadioButton Burial;
+        private Label VersionLabel;
+        private Button UpdateButton;
     }
 }
