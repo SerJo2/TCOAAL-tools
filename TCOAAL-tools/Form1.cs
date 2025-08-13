@@ -101,11 +101,11 @@ namespace TCOAAL_tools
             DialogResult dialog = folderBrowser.ShowDialog();
             if (dialog == DialogResult.OK)
             {
-                listPath = folderBrowser.SelectedPath + @"\www\js\plugins.js";
-                pluginsDirPath = folderBrowser.SelectedPath + @"\www\js\plugins";
-                livesplitPath = folderBrowser.SelectedPath + @"\www\js\plugins\LiveSplit.js";
-                autosplitterPath = folderBrowser.SelectedPath + @"\Autosplitter.json";
-                prefsPath = folderBrowser.SelectedPath + @"\AutosplitterSettings.json";
+                listPath = Path.Combine(folderBrowser.SelectedPath, @"www\js\plugins.js") ;
+                pluginsDirPath = Path.Combine(folderBrowser.SelectedPath, @"www\js\plugins");
+                livesplitPath = Path.Combine(folderBrowser.SelectedPath, @"www\js\plugins\LiveSplit.js");
+                autosplitterPath = Path.Combine(folderBrowser.SelectedPath, @"Autosplitter.json");
+                prefsPath = Path.Combine(folderBrowser.SelectedPath, @"AutosplitterSettings.json");
 
                 if (!Directory.Exists(pluginsDirPath) || !File.Exists(listPath))
                 {
@@ -161,6 +161,10 @@ namespace TCOAAL_tools
 
                 }
 
+            }
+            else
+            {
+                ShowError(new Exception("Something wen't wrong :\\"));
             }
         }
         private void LoadAllPlugins(string prefsPath)
