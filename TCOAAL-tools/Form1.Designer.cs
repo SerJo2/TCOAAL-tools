@@ -39,6 +39,7 @@
             InstallPlugin = new Button();
             VersionLabel = new Label();
             UpdateButton = new Button();
+            AllAchiv = new RadioButton();
             Category.SuspendLayout();
             SuspendLayout();
             // 
@@ -65,6 +66,7 @@
             // 
             // Category
             // 
+            Category.Controls.Add(AllAchiv);
             Category.Controls.Add(Andy);
             Category.Controls.Add(Incest);
             Category.Controls.Add(Burial);
@@ -175,6 +177,19 @@
             UpdateButton.Visible = false;
             UpdateButton.Click += UpdateButton_Click;
             // 
+            // AllAchiv
+            // 
+            AllAchiv.AutoSize = true;
+            AllAchiv.Enabled = false;
+            AllAchiv.Location = new Point(6, 122);
+            AllAchiv.Name = "AllAchiv";
+            AllAchiv.Size = new Size(111, 19);
+            AllAchiv.TabIndex = 10;
+            AllAchiv.TabStop = true;
+            AllAchiv.Text = "All Achivements";
+            AllAchiv.UseVisualStyleBackColor = true;
+            AllAchiv.CheckedChanged += AllAchiv_CheckedChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -208,5 +223,6 @@
         private RadioButton Burial;
         private Label VersionLabel;
         private Button UpdateButton;
+        private RadioButton AllAchiv;
     }
 }

@@ -17,15 +17,15 @@ namespace TCOAAL_tools
         private string selectedPath;
         private string prefsPath;
 
-        public string VERSION = "v1.3.5";
+        public string VERSION = "v1.4.0";
 
         private bool hash_match = false;
         // TODO: Проверять не хешем, а дсон сериалайзером 
         static readonly HttpClient httpClient = new HttpClient();
-        private const string AUTOSPLITTER_SHA256 = "be9cee05b74d92770cea44de2e2fee2cb18d1724d11ef660a3442b94627f2765";
+        private const string AUTOSPLITTER_SHA256 = "cd68642216432147bb79c8a6392428d439823ebb316334d2878fefa7ea83052d";
         private const string LIVESPLIT_SHA256 = "a053284d552c2a31a883155d474b508041e1b3217f027f6938856cf337a10e1c";
         private const string PLUGINS_SHA256 = "8c030a8f8e010b330f98be1fe783cbf5fc83dacc06016ef18a9476d0eaf52b9c";
-        private string[] AUTOSPLITTERSETTINGS_SHA256 = ["bf05aa98bdfc7fa804fd7c6f73ee519a854b835111528fd9e2f2866b0121bb1a", "6831195d51feca0ee8523a09a7abc2c96cc109be163f6a90f51c91e4a3118cbd", "caa912ddf1179eb5cbd3aa10a574b962e929a3a94838f476fdfd7bf2859a0ff8", "78dd3955478cc4c93addfed766a3570476089ad0460f97158d943098463c1d90"];
+        private string[] AUTOSPLITTERSETTINGS_SHA256 = ["bf05aa98bdfc7fa804fd7c6f73ee519a854b835111528fd9e2f2866b0121bb1a", "6831195d51feca0ee8523a09a7abc2c96cc109be163f6a90f51c91e4a3118cbd", "caa912ddf1179eb5cbd3aa10a574b962e929a3a94838f476fdfd7bf2859a0ff8", "78dd3955478cc4c93addfed766a3570476089ad0460f97158d943098463c1d90", "89a8190290a2d86ced97ac13a977274b90783160811e09d215b0fb4c43521ecf"];
 
         private byte[] pluginFile = null;
         private byte[] pluginsListFile = null;
@@ -104,6 +104,11 @@ namespace TCOAAL_tools
             category = "Andy Route";
         }
 
+        private void AllAchiv_CheckedChanged(object sender, EventArgs e)
+        {
+            category = "AllAchiv";
+        }
+
         private void OpenGame_Click(object sender, EventArgs e)
         {
             DialogResult dialog = folderBrowser.ShowDialog();
@@ -159,20 +164,17 @@ namespace TCOAAL_tools
                         Burial.Enabled = true;
                         Incest.Enabled = true;
                         Andy.Enabled = true;
+                        AllAchiv.Enabled = true;
                     }
                     else
                     {
                         InstallPlugin.Enabled = true;
                     }
-
-
-
                 }
-
             }
             else
             {
-                ShowError(new Exception("Something wen't wrong :\\"));
+                
             }
         }
         private void LoadAllPlugins(string prefsPath)
@@ -284,6 +286,9 @@ namespace TCOAAL_tools
                         case "Andy Route":
                             Andy.Checked = true;
                             break;
+                        case "AllAchiv":
+                            AllAchiv.Checked = true;
+                            break;
                     }
                 }
 
@@ -307,24 +312,35 @@ namespace TCOAAL_tools
                     splitPrefs["Burial"] = false;
                     splitPrefs["Incest%"] = false;
                     splitPrefs["Andy Route"] = false;
+                    splitPrefs["AllAchiv"] = false;
                     break;
                 case "Burial":
                     splitPrefs["Any%"] = false;
                     splitPrefs["Burial"] = true;
                     splitPrefs["Incest%"] = false;
                     splitPrefs["Andy Route"] = false;
+                    splitPrefs["AllAchiv"] = false;
                     break;
                 case "Incest%":
                     splitPrefs["Any%"] = false;
                     splitPrefs["Burial"] = false;
                     splitPrefs["Incest%"] = true;
                     splitPrefs["Andy Route"] = false;
+                    splitPrefs["AllAchiv"] = false;
                     break;
                 case "Andy Route":
                     splitPrefs["Any%"] = false;
                     splitPrefs["Burial"] = false;
                     splitPrefs["Incest%"] = false;
                     splitPrefs["Andy Route"] = true;
+                    splitPrefs["AllAchiv"] = false;
+                    break;
+                case "AllAchiv":
+                    splitPrefs["Any%"] = false;
+                    splitPrefs["Burial"] = false;
+                    splitPrefs["Incest%"] = false;
+                    splitPrefs["Andy Route"] = false;
+                    splitPrefs["AllAchiv"] = true;
                     break;
 
             }
@@ -386,6 +402,7 @@ namespace TCOAAL_tools
                 Burial.Enabled = true;
                 Incest.Enabled = true;
                 Andy.Enabled = true;
+                AllAchiv.Enabled = true;
                 InstallPlugin.Enabled = false;
             }
             else
