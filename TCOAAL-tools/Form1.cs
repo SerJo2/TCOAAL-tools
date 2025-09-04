@@ -17,7 +17,7 @@ namespace TCOAAL_tools
         private string selectedPath;
         private string prefsPath;
 
-        public string VERSION = "v1.4.1";
+        public string VERSION = "v1.4.2";
 
         private bool hash_match = false;
         // TODO: Проверять не хешем, а дсон сериалайзером 
@@ -144,8 +144,6 @@ namespace TCOAAL_tools
                             }
                         }
                     }
-
-                    hash_match = true;
 
                     if (hash_match)
                     {
