@@ -17,7 +17,7 @@ namespace TCOAAL_tools
         private string selectedPath;
         private string prefsPath;
 
-        public string VERSION = "v1.4.0";
+        public string VERSION = "v1.4.1";
 
         private bool hash_match = false;
         // TODO: Проверять не хешем, а дсон сериалайзером 
@@ -25,7 +25,7 @@ namespace TCOAAL_tools
         private const string AUTOSPLITTER_SHA256 = "cd68642216432147bb79c8a6392428d439823ebb316334d2878fefa7ea83052d";
         private const string LIVESPLIT_SHA256 = "a053284d552c2a31a883155d474b508041e1b3217f027f6938856cf337a10e1c";
         private const string PLUGINS_SHA256 = "8c030a8f8e010b330f98be1fe783cbf5fc83dacc06016ef18a9476d0eaf52b9c";
-        private string[] AUTOSPLITTERSETTINGS_SHA256 = ["bf05aa98bdfc7fa804fd7c6f73ee519a854b835111528fd9e2f2866b0121bb1a", "6831195d51feca0ee8523a09a7abc2c96cc109be163f6a90f51c91e4a3118cbd", "caa912ddf1179eb5cbd3aa10a574b962e929a3a94838f476fdfd7bf2859a0ff8", "78dd3955478cc4c93addfed766a3570476089ad0460f97158d943098463c1d90", "89a8190290a2d86ced97ac13a977274b90783160811e09d215b0fb4c43521ecf"];
+        private string[] AUTOSPLITTERSETTINGS_SHA256 = ["b0eaf64e22042257a4018003c20fd381d30968ab0b774f19672e5cced503c6b0", "fb9e70c7a5c7ee65ac3a7f67d0ba0cf21089b3fb5d5c0d8c430443932492fb73", "ae99fa614921146729202668120cb7abe7707eb3086eaa1dcfebd36cb1b61aa3", "0e59bf9f01c752871a2263745099e6e11a0eb6b52b28f5b55263d8bf4f1773e8", "89a8190290a2d86ced97ac13a977274b90783160811e09d215b0fb4c43521ecf"];
 
         private byte[] pluginFile = null;
         private byte[] pluginsListFile = null;
@@ -131,7 +131,7 @@ namespace TCOAAL_tools
                     open = true;
 
                     // #TODO поместить все в одно if и убрать первый if нахуй проверять конфиг, прросто проверь есть ли он или нет хз, перезапиши его рил хз
-                    if (CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[0] || CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[1] || CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[2] || CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[3])
+                    if (CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[0] || CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[1] || CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[2] || CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[3] || CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[4])
                     {
                         if (CalculateSHA256(listPath) == PLUGINS_SHA256)
                         {
@@ -144,6 +144,8 @@ namespace TCOAAL_tools
                             }
                         }
                     }
+
+                    hash_match = true;
 
                     if (hash_match)
                     {
