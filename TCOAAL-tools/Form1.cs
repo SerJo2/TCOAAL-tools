@@ -5,6 +5,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Channels;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -17,21 +18,24 @@ namespace TCOAAL_tools
         private string selectedPath;
         private string prefsPath;
 
-        public string VERSION = "v1.4.3";
+        public string VERSION = "v1.5.0";
 
         private bool hash_match = false;
         // TODO: Проверять не хешем, а дсон сериалайзером 
         static readonly HttpClient httpClient = new HttpClient();
-        private const string AUTOSPLITTER_SHA256 = "a397dd3fd46ba53f9f3532d7318d2dde2241bd8730b0e13091a97495bf8a29c3";
-        private const string LIVESPLIT_SHA256 = "a053284d552c2a31a883155d474b508041e1b3217f027f6938856cf337a10e1c";
-        private const string PLUGINS_SHA256 = "8c030a8f8e010b330f98be1fe783cbf5fc83dacc06016ef18a9476d0eaf52b9c";
-        private string[] AUTOSPLITTERSETTINGS_SHA256 = ["b0eaf64e22042257a4018003c20fd381d30968ab0b774f19672e5cced503c6b0", "fb9e70c7a5c7ee65ac3a7f67d0ba0cf21089b3fb5d5c0d8c430443932492fb73", "ae99fa614921146729202668120cb7abe7707eb3086eaa1dcfebd36cb1b61aa3", "0e59bf9f01c752871a2263745099e6e11a0eb6b52b28f5b55263d8bf4f1773e8", "89a8190290a2d86ced97ac13a977274b90783160811e09d215b0fb4c43521ecf"];
+
 
         private byte[] pluginFile = null;
         private byte[] pluginsListFile = null;
         private byte[] prefsFile = null;
         private byte[] autosplitterFile = null;
         private string versionString = null;
+
+        private const string LIVESPLIT_PLUGIN_VERSION = "1.5.0";
+        private const string AUTOSPLITTER_VERSION = "1.5.0";
+        private const string AUTOSPLITTER_SETTINGS_VERSION = "1.5.0";
+
+        private string _autosplitter_version = "1.5.0";
 
         private bool open = false;
         private bool loadingStatus = false;
@@ -109,6 +113,7 @@ namespace TCOAAL_tools
             category = "AllAchiv";
         }
 
+
         private void OpenGame_Click(object sender, EventArgs e)
         {
             DialogResult dialog = folderBrowser.ShowDialog();
@@ -129,19 +134,25 @@ namespace TCOAAL_tools
 
                     selectedPath = folderBrowser.SelectedPath;
                     open = true;
+                    System.Diagnostics.Debug.WriteLine(GetJsonVersion(prefsPath));
+                    System.Diagnostics.Debug.WriteLine(HasLiveSplitPlugin(listPath));
+                    System.Diagnostics.Debug.WriteLine(GetJSVersion(livesplitPath));
+                    System.Diagnostics.Debug.WriteLine(GetJsonVersion(autosplitterPath));
 
-                    // #TODO поместить все в одно if и убрать первый if нахуй проверять конфиг, прросто проверь есть ли он или нет хз, перезапиши его рил хз
-                    if (CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[0] || CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[1] || CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[2] || CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[3] || CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[4])
+                    if (GetJsonVersion(prefsPath) == AUTOSPLITTER_SETTINGS_VERSION)
                     {
-                        if (CalculateSHA256(listPath) == PLUGINS_SHA256)
+                        
+                        if (HasLiveSplitPlugin(listPath))
                         {
-                            if (CalculateSHA256(livesplitPath) == LIVESPLIT_SHA256)
+                            
+                            if (GetJSVersion(livesplitPath) == LIVESPLIT_PLUGIN_VERSION)
                             {
-                                if (CalculateSHA256(autosplitterPath) == AUTOSPLITTER_SHA256)
+                                
+                                if (GetJsonVersion(autosplitterPath) == AUTOSPLITTER_VERSION)
                                 {
                                     hash_match = true;
                                 }
-                            }
+                            }    
                         }
                     }
 
@@ -217,6 +228,7 @@ namespace TCOAAL_tools
             if (versionResult != 0)
             {
                 VersionLabel.ForeColor = Color.Red; // Версия На компе otdated
+                System.Diagnostics.Debug.WriteLine(versionResult.ToString());
                 VersionLabel.Text = "Version Outdated";
                 UpdateButton.Enabled = true;
                 UpdateButton.Visible = true;
@@ -224,6 +236,107 @@ namespace TCOAAL_tools
             else
                 VersionLabel.ForeColor = Color.Green; // Версия Совпадает
         }
+
+        public static string? GetJSVersion(string filePath)
+        {
+            string content = File.ReadAllText(filePath);
+            Match match = Regex.Match(content, @"//\s*@version\s+([\d.]+)");
+            return match.Success ? match.Groups[1].Value : null;
+        }
+        public static string GetJsonVersion(string filePath)
+        {
+            string jsonString = File.ReadAllText(filePath);
+            using var document = JsonDocument.Parse(jsonString);
+            var root = document.RootElement;
+
+            if (root.TryGetProperty("version", out JsonElement versionElement))
+            {
+                return versionElement.GetString();
+            }
+                
+            return null;
+        }
+        public static bool HasLiveSplitPlugin(string filePath)
+        {
+            if (!File.Exists(filePath))
+                return false;
+
+            string jsFileContent = File.ReadAllText(filePath);
+
+            // Находим объявление массива
+            int start = jsFileContent.IndexOf("$plugins =");
+            if (start == -1) return false;
+            int bracketStart = jsFileContent.IndexOf('[', start);
+            if (bracketStart == -1) return false;
+
+            // Находим конец массива (последнюю ']' в файле)
+            int bracketEnd = jsFileContent.LastIndexOf(']');
+            if (bracketEnd == -1 || bracketEnd <= bracketStart) return false;
+
+            string jsonArray = jsFileContent.Substring(bracketStart, bracketEnd - bracketStart + 1);
+
+            try
+            {
+                using JsonDocument doc = JsonDocument.Parse(jsonArray);
+                foreach (JsonElement plugin in doc.RootElement.EnumerateArray())
+                {
+                    if (plugin.ValueKind != JsonValueKind.Object) continue;
+
+                    bool nameOk = plugin.TryGetProperty("name", out JsonElement nameEl)
+                                  && nameEl.GetString() == "LiveSplit";
+
+                    bool statusOk = plugin.TryGetProperty("status", out JsonElement statusEl)
+                                    && statusEl.GetBoolean() == true;
+
+                    bool descOk = plugin.TryGetProperty("description", out JsonElement descEl)
+                                  && descEl.GetString() == "";
+
+                    bool paramsOk = plugin.TryGetProperty("parameters", out JsonElement paramsEl)
+                                    && paramsEl.ValueKind == JsonValueKind.Object
+                                    && !paramsEl.EnumerateObject().Any();
+
+                    if (nameOk && statusOk && descOk && paramsOk)
+                        return true;
+                }
+                return false;
+            }
+            catch (JsonException)
+            {
+                return false;
+            }
+        }
+
+        public static bool InsertLiveSplitPlugin(string filePath)
+        {
+            if (!File.Exists(filePath))
+                return false;
+
+            string fileContent = File.ReadAllText(filePath);
+
+            // Ищем объявление массива
+            int start = fileContent.IndexOf("$plugins =");
+            if (start == -1) return false;
+            int bracketStart = fileContent.IndexOf('[', start);
+            if (bracketStart == -1) return false;
+
+            // (Опционально) проверяем, нет ли уже плагина
+            // if (HasLiveSplitPlugin(filePath)) return false;
+
+            string pluginJson =
+                @"{
+              ""name"": ""LiveSplit"",
+              ""status"": true,
+              ""description"": """",
+              ""parameters"": {}
+            },";
+
+            // Вставляем после открывающей скобки
+            string newContent = fileContent.Insert(bracketStart + 1, "\n" + pluginJson + "\n");
+            File.WriteAllText(filePath, newContent);
+            return true;
+        }
+
+
         private async void RetrievePlugin()
         {
             try
@@ -242,16 +355,54 @@ namespace TCOAAL_tools
 
         private void LoadAutosplitter(string prefsPath)
         {
-            if (File.Exists(prefsPath))
+            if (!File.Exists(prefsPath)) return;
+
+            string json = File.ReadAllText(prefsPath);
+            using var document = JsonDocument.Parse(json);
+            var root = document.RootElement;
+
+            // Читаем версию
+            if (root.TryGetProperty("version", out JsonElement versionElement))
             {
-                string prefsText = File.ReadAllText(prefsPath);
-                splitPrefs = JsonSerializer.Deserialize<Dictionary<string, bool>>(prefsText);
-                PopulateSplitsList();
+                _autosplitter_version = versionElement.GetString() ?? "1.4.3";
             }
+            else
+            {
+                _autosplitter_version = "1.4.3";
+            }
+
+            var splitPrefs = new Dictionary<string, bool>();
+
+            foreach (JsonProperty property in root.EnumerateObject())
+            {
+                if (property.Name == "version") continue;
+
+                // Добавляем только булевы значения
+                if (property.Value.ValueKind == JsonValueKind.True ||
+                    property.Value.ValueKind == JsonValueKind.False)
+                {
+                    splitPrefs[property.Name] = property.Value.GetBoolean();
+                }
+            }
+
+            this.splitPrefs = splitPrefs;
+            PopulateSplitsList();
         }
 
         private void WriteAutosplitter(string prefsPath)
         {
+            // Создаём объект для сериализации
+            var obj = new Dictionary<string, object>
+            {
+                ["version"] = _autosplitter_version
+            };
+
+            // Добавляем все настройки из словаря
+            foreach (var kvp in splitPrefs)
+            {
+                obj[kvp.Key] = kvp.Value;
+            }
+
             JsonSerializerOptions options = new JsonSerializerOptions
             {
                 Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
@@ -259,11 +410,8 @@ namespace TCOAAL_tools
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
 
-            // Write settings
-            string outputText = JsonSerializer.Serialize(splitPrefs, options);
-            StreamWriter writer = new StreamWriter(prefsPath);
-            writer.Write(outputText);
-            writer.Close();
+            string outputText = JsonSerializer.Serialize(obj, options);
+            File.WriteAllText(prefsPath, outputText);
         }
 
         private void PopulateSplitsList()
@@ -369,13 +517,16 @@ namespace TCOAAL_tools
             File.WriteAllBytes(prefsPath, prefsFile);
             File.WriteAllBytes(autosplitterPath, autosplitterFile);
 
-            if (CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[0] || CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[1] || CalculateSHA256(prefsPath) == AUTOSPLITTERSETTINGS_SHA256[2])
+            if (GetJsonVersion(prefsPath) == AUTOSPLITTER_SETTINGS_VERSION)
             {
-                if (CalculateSHA256(listPath) == PLUGINS_SHA256)
+
+                if (HasLiveSplitPlugin(listPath))
                 {
-                    if (CalculateSHA256(livesplitPath) == LIVESPLIT_SHA256)
+
+                    if (GetJSVersion(livesplitPath) == LIVESPLIT_PLUGIN_VERSION)
                     {
-                        if (CalculateSHA256(autosplitterPath) == AUTOSPLITTER_SHA256)
+
+                        if (GetJsonVersion(autosplitterPath) == AUTOSPLITTER_VERSION)
                         {
                             hash_match = true;
                         }
