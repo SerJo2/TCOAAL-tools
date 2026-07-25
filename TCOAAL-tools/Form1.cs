@@ -21,7 +21,6 @@ namespace TCOAAL_tools
         public string VERSION = "v1.5.0";
 
         private bool hash_match = false;
-        // TODO: Проверять не хешем, а дсон сериалайзером 
         static readonly HttpClient httpClient = new HttpClient();
 
 
@@ -229,6 +228,7 @@ namespace TCOAAL_tools
             {
                 VersionLabel.ForeColor = Color.Red; // Версия На компе otdated
                 System.Diagnostics.Debug.WriteLine(versionResult.ToString());
+                System.Diagnostics.Debug.WriteLine(vServer.ToString());
                 VersionLabel.Text = "Version Outdated";
                 UpdateButton.Enabled = true;
                 UpdateButton.Visible = true;
@@ -263,13 +263,11 @@ namespace TCOAAL_tools
 
             string jsFileContent = File.ReadAllText(filePath);
 
-            // Находим объявление массива
             int start = jsFileContent.IndexOf("$plugins =");
             if (start == -1) return false;
             int bracketStart = jsFileContent.IndexOf('[', start);
             if (bracketStart == -1) return false;
 
-            // Находим конец массива (последнюю ']' в файле)
             int bracketEnd = jsFileContent.LastIndexOf(']');
             if (bracketEnd == -1 || bracketEnd <= bracketStart) return false;
 
@@ -313,14 +311,10 @@ namespace TCOAAL_tools
 
             string fileContent = File.ReadAllText(filePath);
 
-            // Ищем объявление массива
             int start = fileContent.IndexOf("$plugins =");
             if (start == -1) return false;
             int bracketStart = fileContent.IndexOf('[', start);
             if (bracketStart == -1) return false;
-
-            // (Опционально) проверяем, нет ли уже плагина
-            // if (HasLiveSplitPlugin(filePath)) return false;
 
             string pluginJson =
                 @"{
@@ -330,7 +324,6 @@ namespace TCOAAL_tools
               ""parameters"": {}
             },";
 
-            // Вставляем после открывающей скобки
             string newContent = fileContent.Insert(bracketStart + 1, "\n" + pluginJson + "\n");
             File.WriteAllText(filePath, newContent);
             return true;
@@ -361,7 +354,6 @@ namespace TCOAAL_tools
             using var document = JsonDocument.Parse(json);
             var root = document.RootElement;
 
-            // Читаем версию
             if (root.TryGetProperty("version", out JsonElement versionElement))
             {
                 _autosplitter_version = versionElement.GetString() ?? "1.4.3";
@@ -377,7 +369,6 @@ namespace TCOAAL_tools
             {
                 if (property.Name == "version") continue;
 
-                // Добавляем только булевы значения
                 if (property.Value.ValueKind == JsonValueKind.True ||
                     property.Value.ValueKind == JsonValueKind.False)
                 {
@@ -391,13 +382,11 @@ namespace TCOAAL_tools
 
         private void WriteAutosplitter(string prefsPath)
         {
-            // Создаём объект для сериализации
             var obj = new Dictionary<string, object>
             {
                 ["version"] = _autosplitter_version
             };
 
-            // Добавляем все настройки из словаря
             foreach (var kvp in splitPrefs)
             {
                 obj[kvp.Key] = kvp.Value;
